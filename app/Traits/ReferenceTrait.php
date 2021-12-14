@@ -22,8 +22,8 @@ trait ReferenceTrait {
     return $randomString;
     } 
 
-    public static function fakeemail() {
-        $reference = rand(10*45, 100*98)  . rand(10*45, 100*98). rand(10*45, 100*98);
-        return $reference;
-    } 
+    // public static function fakeemail() {
+    //     $reference = rand(10*45, 100*98)  . rand(10*45, 100*98). rand(10*45, 100*98);
+    //     return $reference;
+    // } 
 }

@@ -81,6 +81,9 @@ class LoginController extends Controller
 
     public function getAllUserInfo()
     {
+        if (! $token = JWTAuth::parseToken()) {
+            return $this->failureResponse(401,'denied');
+        }
         $data = table::users()
 		->join('user_details', 'users.id', '=', 'user_details.user_id')
 		->join('user_accounts', 'users.id', '=', 'user_accounts.user_id')
