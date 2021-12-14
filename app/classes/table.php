@@ -8,7 +8,7 @@ Class table {
 
     public static function users() 
     {
-      $users = DB::table('users')->select('id', 'uuid', 'name', 'email');
+      $users = DB::table('users');
       return $users;
     }
 

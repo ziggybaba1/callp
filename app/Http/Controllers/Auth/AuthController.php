@@ -21,14 +21,14 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         //valid credential
-        $validator = Validator::make(isset($request->all()['data'])?$request->all()['data']:$request->all(), [
+        $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required|string|min:6|max:50'
         ]);
 
         //Send failed response if request is not valid
             if($validator->fails()) return $this->failureResponse(401,$validator->errors()->first());
-            $request=$this->reset($request->all());
+            // $request=$this->reset($request->all());
            
         //Request is validated
         //Crean token
@@ -88,8 +88,9 @@ class AuthController extends Controller
             return $this->failureResponse(401,'denied');
         }
         $data = table::users()
-		->join('user_details', 'users.id', '=', 'user_details.user_id')
-		->join('user_accounts', 'users.id', '=', 'user_accounts.user_id')
+        ->select('users.id', 'users.uuid', 'users.name', 'users.email','user_details.*','user_accounts.*')
+		->join('user_details', 'user_details.user_id', '=', 'users.id')
+		->join('user_accounts', 'user_accounts.user_id', '=', 'users.id')
 		->paginate(30);
         return $this->successResponse(200,'success',$data);
     }
