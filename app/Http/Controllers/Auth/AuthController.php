@@ -13,7 +13,7 @@ use DB;
 use App\Models\User;
 use App\Classes\Table;
 
-class LoginController extends Controller
+class AuthController extends Controller
 {
     use Callback;
     public function authenticate(Request $request)
@@ -91,5 +91,6 @@ class LoginController extends Controller
 		->join('user_details', 'users.id', '=', 'user_details.user_id')
 		->join('user_accounts', 'users.id', '=', 'user_accounts.user_id')
 		->paginate(30);
+        return $this->successResponse(200,'success',$data);
     }
 }
