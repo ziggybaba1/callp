@@ -84,7 +84,8 @@ class AuthController extends Controller
 
     public function getAllUserInfo()
     {
-        if (! $token = JWTAuth::parseToken()) {
+        try {
+        if (! JWTAuth::parseToken()->authenticate()) {
             return $this->failureResponse(401,'denied');
         }
         $data = table::users()
@@ -93,5 +94,17 @@ class AuthController extends Controller
 		->join('user_accounts', 'user_accounts.user_id', '=', 'users.id')
 		->paginate(30);
         return $this->successResponse(200,'success',$data);
+    }
+        catch (\Exception $e) {
+            if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException){
+                return $this->failureResponse(401,'denied');
+            }else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException){
+                return $this->failureResponse(401,'denied');
+            } else if ( $e instanceof \Tymon\JWTAuth\Exceptions\JWTException) {
+                return $this->failureResponse(401,'denied');
+            }else{
+                return $this->failureResponse(401,'denied');
+            }
+        }
     }
 }
