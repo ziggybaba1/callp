@@ -9,6 +9,9 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
 use App\Traits\Response as Callback;
+use DB;
+use App\Models\User;
+use App\Classes\Table;
 
 class LoginController extends Controller
 {
